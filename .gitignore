@@ -2,6 +2,7 @@
 
 # Environment & Secrets (AIOX)
 .env
+.env.exeample
 .env.local
 .env.*.local
 *.key
@@ -34,3 +35,10 @@ Thumbs.db
 .github/
 .kimi/
 .claude/
+.gemini/
+.aiox-core
+.antigravity/rules/agents/
+
+
+#Instructions
+.agents.md

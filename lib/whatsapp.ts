@@ -36,20 +36,23 @@ export function formatarMensagemPedidoSimulado(pedido: PedidoSimulado) {
 export async function enviarPedidoGrupoAllIn(pedido: PedidoSimulado) {
   const apiUrl = process.env.EVOLUTION_API_URL;
   const apiKey = process.env.EVOLUTION_API_KEY;
+  const instance = process.env.EVOLUTION_INSTANCE;
   const grupoId = process.env.WHATSAPP_GRUPO_ALLIN_ID;
 
-  if (!apiUrl || !apiKey || !grupoId) {
+  if (!apiUrl || !apiKey || !instance || !grupoId) {
     console.warn("[Demo] WhatsApp nao configurado. Pedido simulado confirmado sem envio.");
     return;
   }
 
-  const response = await fetch(`${apiUrl}/message/sendText/${grupoId}`, {
+  const baseUrl = apiUrl.startsWith("http") ? apiUrl : `https://${apiUrl}`;
+
+  const response = await fetch(`${baseUrl}/message/sendText/${instance}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       apikey: apiKey
     },
-    body: JSON.stringify({ text: formatarMensagemPedidoSimulado(pedido) })
+    body: JSON.stringify({ number: grupoId, text: formatarMensagemPedidoSimulado(pedido) })
   });
 
   if (!response.ok) {
