@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-vino-bg: #0e0c0a;
+  --color-vino-surface: #161310;
+  --color-vino-card: #1c1813;
+  --color-vino-hover: #231e18;
+  --color-vino-gold: #c9a55a;
+  --color-vino-goldLight: #e8c97a;
+  --color-vino-goldDim: #8a6d35;
+  --color-vino-cream: #f0e8d5;
+  --color-vino-muted: #7a6d5e;
+  --color-vino-border: rgba(201, 165, 90, 0.15);
+  --color-vino-borderHover: rgba(201, 165, 90, 0.4);
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-sans: "Trebuchet MS", Arial, sans-serif;
+  --shadow-vino: 0 22px 80px rgba(0, 0, 0, 0.32);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #0e0c0a;
+  color: #f0e8d5;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.mais-pedidos-scroller {
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
+}
