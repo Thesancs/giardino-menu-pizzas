@@ -44,12 +44,7 @@ export function CheckoutForm({ restaurante, itens, total, onConfirmed }: Checkou
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 900));
-      const endpoint =
-        process.env.NEXT_PUBLIC_PAGAMENTO_REAL === "true"
-          ? "/api/pagamento/criar"
-          : "/api/pedido-simulado";
-
-      const response = await fetch(endpoint, {
+      const response = await fetch("/api/pedido-simulado", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
