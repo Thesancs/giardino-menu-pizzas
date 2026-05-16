@@ -8,11 +8,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({ children, variant = "primary", className = "", ...props }: ButtonProps) {
   const variants = {
     primary:
-      "bg-vino-gold text-vino-bg hover:bg-vino-goldLight disabled:cursor-not-allowed disabled:opacity-50",
+      "bg-vino-gold text-[#102f23] hover:bg-vino-goldLight disabled:cursor-not-allowed disabled:opacity-50",
     ghost:
       "bg-transparent text-vino-cream hover:bg-vino-border disabled:cursor-not-allowed disabled:opacity-50",
     outline:
-      "border border-vino-borderHover bg-transparent text-vino-gold hover:bg-vino-gold hover:text-vino-bg disabled:cursor-not-allowed disabled:opacity-50"
+      "border border-vino-borderHover bg-transparent text-vino-goldDim hover:bg-vino-gold hover:text-[#102f23] disabled:cursor-not-allowed disabled:opacity-50"
   };
 
   return (

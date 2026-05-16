@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getNextPedidoNumero } from "@/lib/pedido-counter";
 import { enviarPedidoGrupoAllIn } from "@/lib/whatsapp";
 import type { ItemCarrinho, PedidoSimulado, PedidoSimuladoPayload } from "@/types";
 
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
     }));
 
     const total = itens.reduce((sum, item) => sum + item.prato.preco * item.quantidade, 0);
-    const numero = Math.floor(Math.random() * 900) + 100;
+    const numero = await getNextPedidoNumero();
     const pedido: PedidoSimulado = {
       numero,
       restauranteId: body.restauranteId,
@@ -40,11 +41,11 @@ export async function POST(req: Request) {
     try {
       await enviarPedidoGrupoAllIn(pedido);
     } catch (error) {
-      console.error("[Demo] Falha ao enviar para grupo All In:", error);
+      console.error("[Pedido] Falha ao enviar para grupo All In:", error);
     }
 
     return NextResponse.json({ sucesso: true, numero });
   } catch {
-    return NextResponse.json({ error: "Payload invalido" }, { status: 400 });
+    return NextResponse.json({ error: "Payload inválido" }, { status: 400 });
   }
 }

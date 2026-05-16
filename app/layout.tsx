@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vino e Cucina - Cardapio",
-  description: "Demo do All In Cardapio Digital para restaurantes."
+  title: "Giardino Trattoria - Cardápio de Pizzas",
+  description: "Cardápio de pizzas do Giardino Trattoria."
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -4,6 +4,14 @@ import { ConfirmacaoPedido } from "@/components/cardapio/ConfirmacaoPedido";
 import { CheckoutForm } from "@/components/cardapio/CheckoutForm";
 import { Button } from "@/components/ui/Button";
 import { useCarrinho } from "@/hooks/useCarrinho";
+import {
+  aplicarBordaRecheada,
+  obterSaborBorda,
+  permiteBordaRecheada,
+  removerBordaRecheada,
+  saboresBordaRecheada,
+  temBordaRecheada
+} from "@/lib/borda-recheada";
 import { formatCurrency } from "@/lib/formatters";
 import type { Restaurante } from "@/types";
 
@@ -26,6 +34,7 @@ export function Carrinho({
 }: CarrinhoProps) {
   const itens = useCarrinho((state) => state.itens);
   const alterarQuantidade = useCarrinho((state) => state.alterarQuantidade);
+  const atualizarItemPrato = useCarrinho((state) => state.atualizarItemPrato);
   const removerItem = useCarrinho((state) => state.removerItem);
   const limpar = useCarrinho((state) => state.limpar);
   const total = useCarrinho((state) => state.total());
@@ -40,7 +49,7 @@ export function Carrinho({
       />
       <aside
         aria-label="Carrinho"
-        className={`fixed inset-x-0 bottom-0 z-[190] mx-auto flex max-h-[86vh] w-full max-w-[1100px] flex-col border border-vino-borderHover bg-vino-surface/88 shadow-vino backdrop-blur-2xl backdrop-saturate-150 transition-transform duration-300 before:pointer-events-none before:absolute before:inset-0 before:border before:border-white/5 before:bg-[linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03)_35%,rgba(201,165,90,0.08))] before:content-[''] md:max-h-[82vh] ${
+        className={`fixed inset-x-0 bottom-0 z-[190] mx-auto flex max-h-[86vh] w-full max-w-[1100px] flex-col border border-vino-borderHover bg-vino-surface/94 shadow-vino backdrop-blur-2xl backdrop-saturate-150 transition-transform duration-300 before:pointer-events-none before:absolute before:inset-0 before:border before:border-vino-gold/10 before:bg-[linear-gradient(135deg,rgba(214,163,58,0.08),rgba(255,250,240,0.72)_40%,rgba(18,59,43,0.04))] before:content-[''] md:max-h-[82vh] ${
           open ? "translate-y-0" : "translate-y-full"
         }`}
       >
@@ -75,23 +84,33 @@ export function Carrinho({
             </div>
           ) : (
             <>
+              <div className="mb-5 border-2 border-vino-gold bg-vino-gold/12 p-4">
+                <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-vino-goldDim">
+                  Atenção à borda recheada
+                </p>
+                <p className="mt-2 text-sm leading-6 text-vino-cream">
+                  Marque a caixinha em cada pizza do pedido para escolher Catupiry, cream cheese,
+                  gorgonzola ou mussarela de búfala.
+                </p>
+                <p className="mt-1 text-xs leading-5 text-vino-muted">
+                  Acréscimo: R$ 12 no broto | R$ 18 na grande.
+                </p>
+              </div>
               <div className="space-y-4">
                 {itens.map((item) => (
                   <div
-                    className="border border-vino-border bg-vino-card/64 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.18)] backdrop-blur-md"
+                    className="border border-vino-border bg-vino-card/86 p-4 shadow-[0_18px_50px_rgba(65,46,20,0.1)] backdrop-blur-md"
                     key={item.prato.id}
                   >
                     <div className="flex gap-3">
-                      <img
-                        alt={item.prato.nome}
-                        className="h-20 w-20 shrink-0 object-cover"
-                        src={item.prato.fotoUrl}
-                      />
+                      <div className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-vino-gold/45 bg-vino-surface font-display text-3xl italic text-vino-gold">
+                        G
+                      </div>
                       <div className="min-w-0 flex-1">
                         <h3 className="font-display text-xl leading-tight text-vino-cream">
                           {item.prato.nome}
                         </h3>
-                        <p className="mt-1 text-sm text-vino-gold">
+                        <p className="price-outline mt-1 text-sm text-vino-gold">
                           {formatCurrency(item.prato.preco * item.quantidade)}
                         </p>
                       </div>
@@ -126,6 +145,50 @@ export function Carrinho({
                         Remover
                       </button>
                     </div>
+                    {permiteBordaRecheada(item.prato) ? (
+                      <div className="mt-4 border-t border-vino-border pt-4">
+                        <label className="inline-flex items-center gap-3 text-sm font-semibold text-vino-cream">
+                          <input
+                            checked={temBordaRecheada(item.prato)}
+                            className="h-4 w-4 accent-vino-gold"
+                            type="checkbox"
+                            onChange={(event) => {
+                              atualizarItemPrato(
+                                item.prato.id,
+                                event.target.checked
+                                  ? aplicarBordaRecheada(item.prato, saboresBordaRecheada[0])
+                                  : removerBordaRecheada(item.prato)
+                              );
+                            }}
+                          />
+                          Borda recheada
+                          <span className="text-xs font-normal text-vino-muted">
+                            + R$ 12 broto | + R$ 18 grande
+                          </span>
+                        </label>
+                        {temBordaRecheada(item.prato) ? (
+                          <label className="mt-3 block text-xs uppercase tracking-[0.14em] text-vino-muted">
+                            Sabor da borda
+                            <select
+                              className="mt-2 w-full border border-vino-border bg-vino-surface px-3 py-3 text-sm normal-case tracking-normal text-vino-cream outline-none transition focus:border-vino-borderHover"
+                              value={obterSaborBorda(item.prato)}
+                              onChange={(event) => {
+                                atualizarItemPrato(
+                                  item.prato.id,
+                                  aplicarBordaRecheada(item.prato, event.target.value)
+                                );
+                              }}
+                            >
+                              {saboresBordaRecheada.map((sabor) => (
+                                <option key={sabor} value={sabor}>
+                                  {sabor}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -138,7 +201,7 @@ export function Carrinho({
                   <span>Retirada</span>
                   <span>No local</span>
                 </div>
-                <div className="mt-4 flex justify-between font-display text-3xl text-vino-gold">
+                <div className="price-outline mt-4 flex justify-between font-display text-3xl text-vino-gold">
                   <span>Total</span>
                   <span>{formatCurrency(total)}</span>
                 </div>

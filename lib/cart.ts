@@ -25,6 +25,10 @@ export function updateItemQuantity(items: ItemCarrinho[], pratoId: string, quant
   );
 }
 
+export function updateCartItemPrato(items: ItemCarrinho[], pratoId: string, prato: Prato) {
+  return items.map((item) => (item.prato.id === pratoId ? { ...item, prato } : item));
+}
+
 export function removeItemFromCart(items: ItemCarrinho[], pratoId: string) {
   return items.filter((item) => item.prato.id !== pratoId);
 }

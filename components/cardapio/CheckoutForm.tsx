@@ -31,7 +31,7 @@ export function CheckoutForm({ restaurante, itens, total, onConfirmed }: Checkou
     }
 
     if (!isValidBrazilianPhone(cliente.telefone)) {
-      setError("Informe um telefone valido.");
+      setError("Informe um telefone válido.");
       return;
     }
 
@@ -69,12 +69,12 @@ export function CheckoutForm({ restaurante, itens, total, onConfirmed }: Checkou
       const result = (await response.json()) as { sucesso?: boolean; numero?: number; error?: string };
 
       if (!response.ok || !result.sucesso || !result.numero) {
-        throw new Error(result.error || "Nao foi possivel confirmar o pedido.");
+        throw new Error(result.error || "Não foi possível confirmar o pedido.");
       }
 
       onConfirmed(result.numero);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Nao foi possivel confirmar o pedido.");
+      setError(caught instanceof Error ? caught.message : "Não foi possível confirmar o pedido.");
     } finally {
       setLoading(false);
     }
@@ -86,7 +86,7 @@ export function CheckoutForm({ restaurante, itens, total, onConfirmed }: Checkou
       <label className="mt-4 block text-xs uppercase tracking-[0.14em] text-vino-muted">
         Nome
         <input
-          className="mt-2 w-full border border-vino-border bg-vino-bg px-3 py-3 text-sm normal-case tracking-normal text-vino-cream outline-none transition focus:border-vino-borderHover"
+          className="mt-2 w-full border border-vino-border bg-vino-surface px-3 py-3 text-sm normal-case tracking-normal text-vino-cream outline-none transition focus:border-vino-borderHover"
           value={cliente.nome}
           onChange={(event) => setCliente((value) => ({ ...value, nome: event.target.value }))}
         />
@@ -94,7 +94,7 @@ export function CheckoutForm({ restaurante, itens, total, onConfirmed }: Checkou
       <label className="mt-4 block text-xs uppercase tracking-[0.14em] text-vino-muted">
         Telefone
         <input
-          className="mt-2 w-full border border-vino-border bg-vino-bg px-3 py-3 text-sm normal-case tracking-normal text-vino-cream outline-none transition focus:border-vino-borderHover"
+          className="mt-2 w-full border border-vino-border bg-vino-surface px-3 py-3 text-sm normal-case tracking-normal text-vino-cream outline-none transition focus:border-vino-borderHover"
           inputMode="tel"
           value={cliente.telefone}
           onChange={(event) =>
@@ -102,9 +102,9 @@ export function CheckoutForm({ restaurante, itens, total, onConfirmed }: Checkou
           }
         />
       </label>
-      {error ? <p className="mt-3 text-sm text-red-300">{error}</p> : null}
+      {error ? <p className="mt-3 text-sm text-red-700">{error}</p> : null}
       <Button className="mt-5 w-full" disabled={loading} type="submit">
-        {loading ? "Processando demo..." : "Confirmar pedido"}
+        {loading ? "Processando pedido..." : "Confirmar pedido"}
       </Button>
     </form>
   );

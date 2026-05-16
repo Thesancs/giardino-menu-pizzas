@@ -91,7 +91,7 @@ export function MaisPedidosCarousel({ pratos, onAdd, onOpen }: MaisPedidosCarous
   return (
     <section
       aria-labelledby="mais-pedidos-title"
-      className="mb-12 overflow-hidden border-y border-vino-border bg-vino-surface/40 py-7"
+      className="mb-12 overflow-hidden border-y border-vino-border bg-vino-surface/42 py-7"
     >
       <div className="mx-auto max-w-[1100px] px-4 md:px-8">
         <div className="mb-5 flex items-baseline gap-5">
@@ -99,7 +99,7 @@ export function MaisPedidosCarousel({ pratos, onAdd, onOpen }: MaisPedidosCarous
             className="font-display text-3xl font-normal italic text-vino-cream"
             id="mais-pedidos-title"
           >
-            Mais pedidos
+            Favoritas da casa
           </h2>
           <div className="h-px flex-1 bg-vino-border" />
           <span className="text-[0.68rem] uppercase tracking-[0.15em] text-vino-muted">
@@ -127,26 +127,21 @@ export function MaisPedidosCarousel({ pratos, onAdd, onOpen }: MaisPedidosCarous
           <div className="flex w-max gap-4 md:gap-5">
           {carouselPratos.map((prato, index) => (
             <article
-              className="group grid w-[78vw] max-w-[330px] shrink-0 cursor-pointer select-none grid-cols-[112px_1fr] overflow-hidden border border-vino-border bg-vino-card shadow-vino transition duration-200 hover:-translate-y-0.5 hover:border-vino-borderHover hover:bg-vino-hover focus-within:border-vino-gold sm:w-[360px] sm:grid-cols-[140px_1fr]"
+              className="group grid w-[78vw] max-w-[330px] shrink-0 cursor-pointer select-none overflow-hidden border border-vino-border bg-vino-card/82 shadow-vino transition duration-200 hover:-translate-y-0.5 hover:border-vino-borderHover hover:bg-vino-hover focus-within:border-vino-gold sm:w-[360px]"
               key={`${prato.id}-${index}`}
               onClick={() => {
                 if (hasDraggedRef.current) return;
                 onOpen(prato);
               }}
             >
-              <div className="relative min-h-[168px] overflow-hidden">
-                <img
-                  alt={prato.nome}
-                  className="h-full w-full select-none object-cover brightness-90 saturate-90 transition duration-300 group-hover:scale-[1.04] group-hover:brightness-100 group-hover:saturate-100"
-                  draggable={false}
-                  src={prato.fotoUrl}
-                />
-                <Badge className="absolute left-2 top-2">
-                  {prato.badge ?? "Mais pedido"}
-                </Badge>
-              </div>
               <div className="flex min-w-0 flex-col justify-between p-4">
                 <div>
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <div className="grid h-10 w-10 place-items-center rounded-full border border-vino-borderHover bg-vino-surface font-display text-lg italic text-vino-gold">
+                      G
+                    </div>
+                    <Badge>{prato.badge ?? "Mais pedido"}</Badge>
+                  </div>
                   <h3 className="line-clamp-2 font-display text-xl font-semibold leading-tight text-vino-cream">
                     {prato.nome}
                   </h3>
@@ -155,19 +150,24 @@ export function MaisPedidosCarousel({ pratos, onAdd, onOpen }: MaisPedidosCarous
                   </p>
                 </div>
                 <div className="mt-4 flex items-center justify-between gap-3">
-                  <span className="min-w-0 font-display text-2xl font-semibold leading-none text-vino-gold">
-                    {formatCurrency(prato.preco)}
-                  </span>
+                  <div className="min-w-0">
+                    <span className="block text-[0.58rem] uppercase tracking-[0.12em] text-vino-muted">
+                      Broto
+                    </span>
+                    <span className="price-outline block font-display text-2xl font-semibold leading-none text-vino-gold">
+                      {formatCurrency(prato.preco)}
+                    </span>
+                  </div>
                   <button
                     aria-label={`Adicionar ${prato.nome}`}
-                    className="grid h-9 w-9 shrink-0 place-items-center border border-vino-borderHover text-2xl leading-none text-vino-gold transition hover:border-vino-gold hover:bg-vino-gold hover:text-vino-bg focus:border-vino-gold focus:bg-vino-gold focus:text-vino-bg focus:outline-none"
+                    className="inline-flex min-h-10 shrink-0 items-center justify-center border border-vino-borderHover px-3 py-2 text-center text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-vino-goldDim transition hover:border-vino-gold hover:bg-vino-gold hover:text-[#102f23] focus:border-vino-gold focus:bg-vino-gold focus:text-[#102f23] focus:outline-none"
                     type="button"
                     onClick={(event) => {
                       event.stopPropagation();
                       onAdd(prato);
                     }}
                   >
-                    +
+                    Adicionar
                   </button>
                 </div>
               </div>

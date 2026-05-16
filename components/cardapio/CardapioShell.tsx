@@ -11,6 +11,7 @@ import { SecaoCategoria } from "@/components/cardapio/SecaoCategoria";
 import { Toast } from "@/components/ui/Toast";
 import { useCarrinho } from "@/hooks/useCarrinho";
 import { formatCurrency } from "@/lib/formatters";
+import { formatPedidoNumero } from "@/lib/pedido-format";
 import type { Prato, Restaurante } from "@/types";
 
 export function CardapioShell({ restaurante }: { restaurante: Restaurante }) {
@@ -93,7 +94,7 @@ export function CardapioShell({ restaurante }: { restaurante: Restaurante }) {
   }
 
   return (
-    <div className="min-h-screen bg-vino-bg text-vino-cream">
+    <div className="min-h-screen text-vino-cream">
       <Header restaurante={restaurante} onCartOpen={() => setCartOpen(true)} />
       <HeroBanner restaurante={restaurante} />
       <CategoriaNav
@@ -103,7 +104,7 @@ export function CardapioShell({ restaurante }: { restaurante: Restaurante }) {
       />
       <main className={`${hasCartItems ? "pb-32" : "pb-10"}`}>
         <MaisPedidosCarousel pratos={maisPedidos} onAdd={addPrato} onOpen={setSelectedPrato} />
-        <div className="mx-auto max-w-[1100px] px-4 pt-10 md:px-8">
+        <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-8">
           {pratosPorCategoria.map(({ categoria, pratos }) => (
             <SecaoCategoria
               categoria={categoria}
@@ -116,7 +117,7 @@ export function CardapioShell({ restaurante }: { restaurante: Restaurante }) {
         </div>
       </main>
       {hasCartItems && !cartOpen ? (
-        <div className="fixed inset-x-0 bottom-0 z-[120] border-t border-vino-borderHover bg-vino-bg/92 px-4 py-3 shadow-[0_-18px_60px_rgba(0,0,0,0.34)] backdrop-blur-xl md:px-8">
+        <div className="fixed inset-x-0 bottom-0 z-[120] border-t border-vino-borderHover bg-vino-surface/94 px-4 py-3 shadow-[0_-18px_60px_rgba(65,46,20,0.14)] backdrop-blur-xl md:px-8">
           <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-4">
             <button
               className="min-w-0 flex-1 text-left"
@@ -126,16 +127,16 @@ export function CardapioShell({ restaurante }: { restaurante: Restaurante }) {
               <span className="block text-[0.65rem] uppercase tracking-[0.18em] text-vino-muted">
                 Carrinho
               </span>
-              <span className="mt-1 block font-display text-2xl leading-none text-vino-gold">
+              <span className="price-outline mt-1 block font-display text-2xl leading-none text-vino-gold">
                 {formatCurrency(totalCarrinho)}
               </span>
             </button>
             <button
-              className="shrink-0 bg-vino-gold px-5 py-3 text-xs font-medium uppercase tracking-[0.12em] text-vino-bg transition hover:bg-vino-goldLight sm:px-8"
+              className="shrink-0 bg-vino-gold px-5 py-3 text-xs font-medium uppercase tracking-[0.12em] text-[#102f23] transition hover:bg-vino-goldLight sm:px-8"
               type="button"
               onClick={() => setCartOpen(true)}
             >
-              Comprar
+              Fazer pedido
             </button>
           </div>
         </div>
@@ -148,7 +149,7 @@ export function CardapioShell({ restaurante }: { restaurante: Restaurante }) {
         onClose={() => setCartOpen(false)}
         onConfirmed={(numero) => {
           setConfirmationNumber(numero);
-          showToast(`Pedido #${numero} confirmado`);
+          showToast(`Pedido #${formatPedidoNumero(numero)} confirmado`);
         }}
         onResetConfirmation={() => setConfirmationNumber(null)}
       />

@@ -1,24 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-vino-bg: #0e0c0a;
-  --color-vino-surface: #161310;
-  --color-vino-card: #1c1813;
-  --color-vino-hover: #231e18;
-  --color-vino-gold: #c9a55a;
-  --color-vino-goldLight: #e8c97a;
-  --color-vino-goldDim: #8a6d35;
-  --color-vino-cream: #f0e8d5;
-  --color-vino-muted: #7a6d5e;
-  --color-vino-border: rgba(201, 165, 90, 0.15);
-  --color-vino-borderHover: rgba(201, 165, 90, 0.4);
+  --color-vino-bg: #f7f0df;
+  --color-vino-surface: #fffaf0;
+  --color-vino-card: #fffdf7;
+  --color-vino-hover: #efe4cb;
+  --color-vino-gold: #d6a33a;
+  --color-vino-goldLight: #efbd55;
+  --color-vino-goldDim: #a57327;
+  --color-vino-cream: #123b2b;
+  --color-vino-muted: #756b58;
+  --color-vino-border: rgba(18, 59, 43, 0.15);
+  --color-vino-borderHover: rgba(214, 163, 58, 0.52);
   --font-display: Georgia, "Times New Roman", serif;
-  --font-sans: "Trebuchet MS", Arial, sans-serif;
-  --shadow-vino: 0 22px 80px rgba(0, 0, 0, 0.32);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --shadow-vino: 0 22px 70px rgba(65, 46, 20, 0.16);
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -34,8 +34,23 @@ html {
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background: #0e0c0a;
-  color: #f0e8d5;
+  background:
+    radial-gradient(circle at 14% 0%, rgba(214, 163, 58, 0.2), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(18, 59, 43, 0.12), transparent 30%),
+    linear-gradient(135deg, #fffaf0 0%, #f7f0df 48%, #efe2c8 100%);
+  color: #123b2b;
+}
+
+body::before {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(18, 59, 43, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(18, 59, 43, 0.028) 1px, transparent 1px);
+  background-size: 34px 34px;
+  content: "";
 }
 
 button,
@@ -59,4 +74,13 @@ button {
 .mais-pedidos-scroller {
   touch-action: pan-y;
   overscroll-behavior-x: contain;
+}
+
+.price-outline {
+  -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.78);
+  paint-order: stroke fill;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.72),
+    1px 0 0 rgba(0, 0, 0, 0.45),
+    -1px 0 0 rgba(0, 0, 0, 0.32);
 }

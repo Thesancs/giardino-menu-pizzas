@@ -6,6 +6,7 @@ import {
   getCartQuantity,
   getCartTotal,
   removeItemFromCart,
+  updateCartItemPrato,
   updateItemQuantity
 } from "@/lib/cart";
 import type { ItemCarrinho, Prato } from "@/types";
@@ -14,6 +15,7 @@ interface CarrinhoState {
   itens: ItemCarrinho[];
   restauranteId: string | null;
   adicionarItem: (restauranteId: string, prato: Prato, quantidade?: number) => void;
+  atualizarItemPrato: (pratoId: string, prato: Prato) => void;
   removerItem: (pratoId: string) => void;
   alterarQuantidade: (pratoId: string, quantidade: number) => void;
   limpar: () => void;
@@ -39,6 +41,9 @@ export const useCarrinho = create<CarrinhoState>((set, get) => ({
       itens: addItemToCart(state.itens, prato, quantidade),
       restauranteId
     }));
+  },
+  atualizarItemPrato: (pratoId, prato) => {
+    set((state) => ({ itens: updateCartItemPrato(state.itens, pratoId, prato) }));
   },
   removerItem: (pratoId) => {
     set((state) => ({ itens: removeItemFromCart(state.itens, pratoId) }));

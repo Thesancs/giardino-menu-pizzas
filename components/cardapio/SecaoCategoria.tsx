@@ -14,19 +14,20 @@ interface SecaoCategoriaProps {
 export function SecaoCategoria({ categoria, pratos, onAdd, onOpen }: SecaoCategoriaProps) {
   return (
     <section className="mb-14 scroll-mt-36" id={`sec-${categoria.id}`}>
-      <div className="mb-6 flex items-baseline gap-5">
-        <h2 className="font-display text-3xl font-normal italic text-vino-cream">
+      <div className="mb-2 flex items-baseline gap-5">
+        <h2 className="font-display text-4xl font-normal italic text-vino-cream">
           {categoria.nome}
         </h2>
         <div className="h-px flex-1 bg-vino-border" />
         <span className="text-[0.68rem] uppercase tracking-[0.15em] text-vino-muted">
-          {pratos.length} opcoes
+          {pratos.length} opções
         </span>
       </div>
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+      <div className="mb-6 h-px w-20 bg-vino-gold" />
+      <div className="grid grid-cols-1 gap-5">
         {pratos.map((prato) =>
           prato.destaque ? (
-            <div className="lg:col-span-2" key={prato.id}>
+            <div key={prato.id}>
               <PratoCardFeatured prato={prato} onAdd={onAdd} onOpen={onOpen} />
             </div>
           ) : (

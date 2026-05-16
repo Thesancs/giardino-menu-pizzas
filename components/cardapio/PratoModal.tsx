@@ -26,11 +26,13 @@ export function PratoModal({ prato, onClose, onAdd }: PratoModalProps) {
   return (
     <Modal labelledBy="prato-modal-title" open={Boolean(prato)} onClose={close}>
       <div className="max-h-[90vh] w-full max-w-[540px] overflow-y-auto border border-vino-borderHover bg-vino-card shadow-vino">
-        <div className="relative">
-          <img alt={prato.nome} className="h-[240px] w-full object-cover brightness-90" src={prato.fotoUrl} />
+        <div className="relative grid min-h-[170px] place-items-center border-b border-vino-border bg-[linear-gradient(135deg,rgba(214,163,58,0.16),rgba(255,250,240,0.96))]">
+          <div className="grid h-24 w-24 place-items-center rounded-full border border-vino-gold/50 bg-vino-surface font-display text-5xl italic text-vino-gold">
+            G
+          </div>
           <button
             aria-label="Fechar"
-            className="absolute right-4 top-4 grid h-9 w-9 place-items-center border border-vino-border bg-vino-bg/80 text-vino-cream transition hover:bg-vino-border"
+            className="absolute right-4 top-4 grid h-9 w-9 place-items-center border border-vino-border bg-vino-surface/80 text-vino-cream transition hover:bg-vino-hover"
             type="button"
             onClick={close}
           >
@@ -46,8 +48,20 @@ export function PratoModal({ prato, onClose, onAdd }: PratoModalProps) {
             {prato.nome}
           </h2>
           <p className="mt-3 text-sm font-light leading-relaxed text-vino-muted">{prato.descricao}</p>
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            {(prato.tamanhos ?? [{ nome: "A partir de", preco: prato.preco }]).map((tamanho) => (
+              <div className="border border-vino-border bg-vino-bg/45 p-4" key={tamanho.nome}>
+                <span className="block text-[0.65rem] uppercase tracking-[0.12em] text-vino-muted">
+                  {tamanho.nome}
+                </span>
+                <span className="price-outline mt-1 block font-display text-3xl leading-none text-vino-gold">
+                  {formatCurrency(tamanho.preco)}
+                </span>
+              </div>
+            ))}
+          </div>
           <p className="mt-5 border-t border-vino-border pt-4 text-[0.7rem] uppercase tracking-[0.1em] text-vino-goldDim">
-            {prato.ingredientes}
+            {prato.observacao ?? prato.ingredientes}
           </p>
           <div className="mt-6 flex items-center gap-4">
             <Button
@@ -70,7 +84,7 @@ export function PratoModal({ prato, onClose, onAdd }: PratoModalProps) {
             >
               +
             </Button>
-            <span className="ml-auto font-display text-3xl text-vino-gold">
+            <span className="price-outline ml-auto font-display text-3xl text-vino-gold">
               {formatCurrency(prato.preco * quantidade)}
             </span>
           </div>

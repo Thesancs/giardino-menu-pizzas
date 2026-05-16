@@ -24,12 +24,19 @@ export interface Categoria {
 
 export interface Prato {
   id: string;
+  basePratoId?: string;
   categoriaId: string;
   nome: string;
   descricao: string;
   ingredientes: string;
   preco: number;
-  fotoUrl: string;
+  precoBase?: number;
+  fotoUrl?: string;
+  tamanhos?: Array<{
+    nome: string;
+    preco: number;
+  }>;
+  observacao?: string;
   badge?: string;
   destaque?: boolean;
   disponivel: boolean;

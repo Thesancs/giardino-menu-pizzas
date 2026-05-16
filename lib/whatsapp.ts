@@ -1,4 +1,5 @@
 import { formatCurrency, formatTime } from "@/lib/formatters";
+import { formatPedidoNumero } from "@/lib/pedido-counter";
 import type { PedidoSimulado } from "@/types";
 
 export function formatarMensagemPedidoSimulado(pedido: PedidoSimulado) {
@@ -12,24 +13,22 @@ export function formatarMensagemPedidoSimulado(pedido: PedidoSimulado) {
     .join("\n");
 
   return [
-    "*[DEMO] PEDIDO SIMULADO - All In Cardapio*",
-    "Nenhum pagamento foi realizado.",
+    "*PEDIDO DE PIZZA - GIARDINO TRATTORIA*",
     "",
     `*Restaurante:* ${pedido.restauranteNome}`,
-    `*Pedido:* #${pedido.numero}`,
+    `*Pedido:* #${formatPedidoNumero(pedido.numero)}`,
     `*Horario:* ${formatTime(new Date(pedido.criadoEm))}`,
     "",
     "*Cliente (teste):*",
     `Nome: ${pedido.cliente.nome}`,
     `Tel: ${pedido.cliente.telefone}`,
+    pedido.cliente.observacoes ? `Observações: ${pedido.cliente.observacoes}` : "",
     "",
     "*Itens:*",
     itens,
     "",
     "*Retirada:* No local",
-    `*Total simulado:* ${formatCurrency(pedido.total)}`,
-    "",
-    "Pagamento: SIMULADO"
+    `*Total:* ${formatCurrency(pedido.total)}`
   ].join("\n");
 }
 
@@ -40,7 +39,7 @@ export async function enviarPedidoGrupoAllIn(pedido: PedidoSimulado) {
   const grupoId = process.env.WHATSAPP_GRUPO_ALLIN_ID;
 
   if (!apiUrl || !apiKey || !instance || !grupoId) {
-    console.warn("[Demo] WhatsApp nao configurado. Pedido simulado confirmado sem envio.");
+    console.warn("[Pedido] WhatsApp nao configurado. Pedido confirmado sem envio.");
     return;
   }
 

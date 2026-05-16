@@ -31,7 +31,7 @@ describe("/api/pedido-simulado", () => {
 
     expect(response.status).toBe(200);
     expect(body.sucesso).toBe(true);
-    expect(body.numero).toBeGreaterThanOrEqual(100);
+    expect(body.numero).toBeGreaterThanOrEqual(1);
     warn.mockRestore();
   });
 });
