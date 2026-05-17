@@ -34,8 +34,13 @@ export async function getNextPedidoNumero() {
   const counter = await readCounter(counterPath);
   const nextNumber = counter.ultimoNumero + 1;
 
-  await mkdir(dirname(counterPath), { recursive: true });
-  await writeFile(counterPath, JSON.stringify({ ultimoNumero: nextNumber }, null, 2), "utf-8");
+  try {
+    await mkdir(dirname(counterPath), { recursive: true });
+    await writeFile(counterPath, JSON.stringify({ ultimoNumero: nextNumber }, null, 2), "utf-8");
+  } catch (error) {
+    console.warn("[Pedido] Nao foi possivel persistir contador local:", error);
+    return Number(String(Date.now()).slice(-6));
+  }
 
   return nextNumber;
 }

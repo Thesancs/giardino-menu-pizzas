@@ -4,13 +4,21 @@ import { enviarPedidoGrupoAllIn } from "@/lib/whatsapp";
 import type { ItemCarrinho, PedidoSimulado, PedidoSimuladoPayload } from "@/types";
 
 export async function POST(req: Request) {
+  let body: PedidoSimuladoPayload;
+
   try {
-    const body = (await req.json()) as PedidoSimuladoPayload;
+    body = (await req.json()) as PedidoSimuladoPayload;
+  } catch (error) {
+    console.error("[Pedido] JSON invalido:", error);
+    return NextResponse.json({ error: "Payload inválido" }, { status: 400 });
+  }
 
-    if (!body.cliente?.nome || !body.cliente?.telefone || !body.itens?.length) {
-      return NextResponse.json({ error: "Dados incompletos" }, { status: 400 });
-    }
+  if (!body.cliente?.nome || !body.cliente?.telefone || !body.itens?.length) {
+    console.error("[Pedido] Dados incompletos:", body);
+    return NextResponse.json({ error: "Dados incompletos" }, { status: 400 });
+  }
 
+  try {
     const itens: ItemCarrinho[] = body.itens.map((item) => ({
       prato: {
         id: item.pratoId,
@@ -45,7 +53,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ sucesso: true, numero });
-  } catch {
-    return NextResponse.json({ error: "Payload inválido" }, { status: 400 });
+  } catch (error) {
+    console.error("[Pedido] Erro interno ao confirmar pedido:", error);
+    return NextResponse.json({ error: "Não foi possível confirmar o pedido" }, { status: 500 });
   }
 }
