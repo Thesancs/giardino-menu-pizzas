@@ -68,12 +68,9 @@ export interface PedidoSimulado {
 
 export interface PedidoSimuladoPayload {
   restauranteId: string;
-  restauranteNome: string;
   cliente: ClienteCheckout;
   itens: Array<{
     pratoId: string;
-    nome: string;
-    preco: number;
     quantidade: number;
   }>;
 }

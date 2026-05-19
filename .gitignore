@@ -37,8 +37,16 @@ Thumbs.db
 .claude/
 .gemini/
 .aiox-core
+.aiox/
 .antigravity/rules/agents/
 
+# AI Tools & IDEs
+.windsurf/
+.roo/
+.continue/
+.aider/
+.cline/
+AGENTS.md
 
 #Instructions
 .agents.md

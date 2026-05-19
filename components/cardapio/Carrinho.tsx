@@ -66,7 +66,7 @@ export function Carrinho({
             type="button"
             onClick={onClose}
           >
-            x
+            ×
           </button>
         </div>
         <div className="relative z-10 flex-1 overflow-y-auto p-5">
@@ -80,7 +80,7 @@ export function Carrinho({
             />
           ) : itens.length === 0 ? (
             <div className="border border-vino-border bg-vino-card/60 p-5 text-sm text-vino-muted backdrop-blur-md">
-              Seu pedido ainda esta vazio.
+              Seu pedido ainda está vazio.
             </div>
           ) : (
             <>

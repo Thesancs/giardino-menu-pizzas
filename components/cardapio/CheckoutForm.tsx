@@ -43,22 +43,23 @@ export function CheckoutForm({ restaurante, itens, total, onConfirmed }: Checkou
     setLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 900));
+      const payload = {
+        restauranteId: restaurante.id,
+        cliente,
+        itens: itens.map((item) => ({
+          pratoId: item.prato.id,
+          quantidade: item.quantidade
+        }))
+      };
+
       const response = await fetch("/api/pedido-simulado", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          restauranteId: restaurante.id,
-          restauranteNome: restaurante.nome,
-          cliente,
-          itens: itens.map((item) => ({
-            pratoId: item.prato.id,
-            nome: item.prato.nome,
-            preco: item.prato.preco,
-            quantidade: item.quantidade
-          })),
-          total
-        })
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        cache: "no-store",
+        body: JSON.stringify(payload)
       });
 
       const result = (await response.json()) as { sucesso?: boolean; numero?: number; error?: string };

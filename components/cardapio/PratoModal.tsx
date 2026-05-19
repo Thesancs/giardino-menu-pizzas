@@ -36,7 +36,7 @@ export function PratoModal({ prato, onClose, onAdd }: PratoModalProps) {
             type="button"
             onClick={close}
           >
-            x
+            ×
           </button>
         </div>
         <div className="p-6">
